@@ -50,6 +50,7 @@ func savegob(rtspchan chan media.RTCSample, savectrlchan chan string, devicename
 
 }
 
+// playgob plays the recorded gob to the browser
 func playgob(playctrlchan chan string) {
 	var state = "stopped"
 	var file *os.File

@@ -33,9 +33,7 @@ func main() {
 	go processmsg()
 	go http.Handle("/", http.FileServer(http.Dir("view/")))
 	go scheduler()
-	//	http.Handle("/view/", http.FileServer(http.Dir("/home/scarpenter/go/src/machinesworking.com/myhome/mhserver")))
 
-	//	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})

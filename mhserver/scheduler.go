@@ -30,38 +30,6 @@ func scheduler() {
 
 }
 
-/*
-
- func looper() {
-	 err = watcher.Add("/tmp/foo")
-	 if err != nil {
-	     log.Fatal(err)
-	 }
-
-
-    for {
-        select {
-        case event, ok := <-watcher.Events:
-            if !ok {
-                continue
-            }
-            log.Println("event:", event)
-            if event.Op&fsnotify.Write == fsnotify.Write {
-                log.Println("modified file:", event.Name)
-            }
-        case err, ok := <-watcher.Errors:
-            if !ok {
-                continue
-            }
-            log.Println("error:", err)
-        }
-    }
-}
-
-
-
-*/
-
 func looper() {
 
 	watcher, err := fsnotify.NewWatcher()
@@ -82,11 +50,6 @@ func looper() {
 		chosen, value, _ := reflect.Select(cases)
 		if chosen == len(cases)-1 {
 			event := reflect.Value(value).Interface().(fsnotify.Event)
-			/*
-				if testvar.Mask == fsnotify.IN_MODIFY { // scheduler file has changed...reload
-					break
-				}
-			*/
 
 			if event.Op&fsnotify.Write == fsnotify.Write {
 				log.Println("modified file:", event.Name)
@@ -147,5 +110,3 @@ func loadSchedule(localname string) {
 
 	looper()
 }
-
-//done := make(chan bool)

@@ -20,19 +20,7 @@ func loadnodes(nodesFile string) ([]byte, error) {
 		fmt.Printf("Couldn't load nodes file\r\n")
 		return nil, err
 	}
-	//unmarshal the config JSON into the local config pointer
-	//return the struct pointer
-	/*
-		err = json.Unmarshal(body, msg)
-		if err != nil {
-			fmt.Printf("could not unmarshal body: %s\n", err.Error())
-		}
 
-			msg.Msg, err = json.Marshal(ctrl)
-			if err != nil {
-				fmt.Printf("could not marshal control value: %s\n", err.Error())
-			}
-	*/
 	return body, nil
 }
 
@@ -72,14 +60,6 @@ func loadmsgnames() (*message, error) {
 
 	msg.Targets = []string{"text", "hmi"}
 	msg.Msg = ctrlstr
-	/*
-		send the map as JSON to the websocket connection
-		err = websocket.JSON.Send(conn, msg)
-
-		if err != nil {
-			fmt.Printf("Could not send initial config list data %s", err.Error())
-		}
-	*/
 
 	return msg, nil
 }
