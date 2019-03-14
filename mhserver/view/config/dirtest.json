@@ -1,0 +1,1 @@
+{"Msg":{"Type":"oscommand","Value": {"cmd":"ls", "args":["-l", "-a", "-i"]}},"Targets":["camera"],"Type":"control"}

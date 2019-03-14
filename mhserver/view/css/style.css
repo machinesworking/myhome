@@ -1,0 +1,254 @@
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+ .seqconfig {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 600px;
+  bottom: 5px;
+}
+.seqmenu {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  right: 650px;
+  bottom: 5px;
+
+}
+#headerdiv{
+	width: 100%
+}
+.seqcontainer{
+	position: relative;
+	height: 500px;
+	display: none;
+}
+
+#remoteVideos{
+width:1300px;
+overflow: auto;
+
+}
+
+#statusDiv{
+	width:800px;
+	Height:500px;
+	overflow: auto;
+}
+#msgtext{
+  visibility: hidden
+}
+ #saveButton,  #loadButton,  #selectButton{
+     background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+}
+
+
+
+
+ #shutdownDlgButton{
+    background-color: #df6666;
+    width: 300px;
+    height: 300px;
+    -moz-border-radius: 150px;
+    -webkit-border-radius: 150px;
+    border-radius:150px;
+    color: #fff;
+}
+#continueShutdownButton{
+      background-color: #ccc;
+     width: 250px;
+    height: 250px;
+    -moz-border-radius: 125px;
+    -webkit-border-radius: 125px;
+    border-radius:125px;
+    color: #fff;
+ }
+
+#cancelShutdownButton{
+      background-color: #ccc;
+     width: 250px;
+    height: 250px;
+    -moz-border-radius: 125px;
+    -webkit-border-radius: 125px;
+    border-radius:125px;
+    color: #000000;
+ }
+
+#shutdownDlgButton:hover , #continueShutdownButton:hover, #abortShutdownButton:hover{
+    border: none;
+    background:red;
+    box-shadow: 0px 0px 1px #777;
+
+
+  }
+#cancelShutdownButton:hover{
+    border: none;
+    background:yellow;
+    box-shadow: 0px 0px 1px #777;
+
+
+  }
+
+#saveButton:hover, #loadButton:hover, #selectButton:hover {
+    border: none;
+    background:blue;
+    box-shadow: 0px 0px 1px #777;
+
+
+  }
+
+#abortButton{
+      background-color: #ccc;
+     width: 100px;
+    height: 100px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius:50px;
+    color: #000000;
+ }
+
+
+  body {
+      font: 10.5pt arial;
+      color: #4d4d4d;
+      line-height: 150%;
+	  width: 800px;
+    }
+
+    code {
+      background-color: #f5f5f5;
+    }
+
+    #jsoneditor {
+      width: 600px;
+      height: 500px;
+    }
+
+
+
+   .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 10;
+}
+#abortDialog {
+	display: none;
+	opacity: 0.7;
+	width: 120px;
+    height: 100px;
+    left: 660px;
+	position: fixed;
+    background-color: #bfbfbf;
+    border-radius: 5px;
+    text-align: center;
+}
+.modal {
+
+ width: 600px;
+    height: 400px;
+   /* line-height: 200px;*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+   margin-top: -200px;
+    margin-left: -300px;
+    background-color: #bfbfbf;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
+.statusDiv{
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 0px;
+    height: 82%;
+    width: 100%;
+    overflow: auto;
+    text-align: left;
+	font-size:85%;
+	font-family: serif;
+	 border-style: solid;
+    border-width: 2px;
+}
+.vidiv{
+
+    overflow: auto;
+  font-size:85%;
+	font-family: serif;
+	 border-style: solid;
+    border-width: 2px;
+}

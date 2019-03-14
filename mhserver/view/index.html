@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Myhome Config</title>
+
+  <!-- when using the mode "code", it's important to specify charset utf-8 -->
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+  <link href="css/jsoneditor.css" rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <script src="scripts/jsoneditor.js"></script>
+
+ <script src="scripts/seq.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+</head>
+<body onload="init()">
+<h1>My home monitoring system</h1>
+<div id="headerdiv">
+<button onclick="editConfig()" id="editConfigButton">Edit A Message</button>
+ <button  onclick="sendmsg()" >Send Message </button>
+<select id="configSelect"  >
+
+</select>
+
+<input id="msgtext" type="text" size="40">
+ </div>
+
+
+
+<div class="seqcontainer" id="editDiv">
+<div id="seqmenu"  class="seqmenu" >
+<label>Select a Message</label>
+<select id=editConfigSelect  size="6">
+
+</select>
+<p>
+<button onclick="saveConfig()" id="saveConfigButton">Save Message</button>
+<p>
+<button onclick="deleteConfig()" id="deleteConfigButton">Delete Message</button>
+<p>
+<button onclick="doneEditing()" id="doneEditButton">Done Editing</button>
+<p>
+   <button  onclick="sendmsg()" >Send Message </button>
+</div >
+<div class="seqconfig">
+<div id="jsoneditor" ></div>
+</div>
+</div>
+
+
+<div id="status" class="statusDiv">
+Status
+<hr>
+<div id="statusDiv">
+
+</div>
+ <button  onclick="clearLog()" >Clear Log</button>
+</div>
+
+
+
+<div id="remoteVideos"></div> <br />
+<div id="vstat"></div>
+
+
+
+   </body>
+</html>

@@ -1,0 +1,1 @@
+{"Msg":{"Type":"oscommand","Value":"setconf -k m -v 4"},"Targets":["camera"],"Type":"control"}
