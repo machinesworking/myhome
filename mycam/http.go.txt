@@ -1,0 +1,96 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"encoding/base64"
+
+	"github.com/gorilla/mux"
+	"github.com/pions/webrtc"
+	"github.com/pions/webrtc/pkg/ice"
+	"github.com/pions/webrtc/pkg/media"
+	uuid "github.com/satori/go.uuid"
+)
+
+// DataChanelTest sample data channel
+var sampleChannels = make(map[uuid.UUID]chan<- media.RTCSample)
+var cancelchan = make(chan bool)
+
+// start the http server
+func StartHTTPServer() {
+	r := mux.NewRouter()
+	r.HandleFunc("/receive", HTTPHome)
+	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("static/"))))
+
+	go func() {
+		err := http.ListenAndServe(":8181", r)
+		if err != nil {
+		}
+	}()
+	select {
+	case <-cancelchan:
+		return
+	}
+}
+func HTTPHome(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	data := r.FormValue("data")
+	sd, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	var u1 uuid.UUID
+
+	webrtc.RegisterDefaultCodecs()
+	peerConnection, err := webrtc.New(webrtc.RTCConfiguration{
+		IceServers: []webrtc.RTCIceServer{
+			{
+				URLs: []string{"stun:stun.l.google.com:19302"},
+			},
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	peerConnection.OnICEConnectionStateChange(func(connectionState ice.ConnectionState) {
+
+		fmt.Printf("Connection State has changed %s \n", connectionState.String())
+		if connectionState.String() == "Disconnected" {
+			sampleChannels[u1] = nil
+			fmt.Printf("removed session %s\n", u1.String())
+		}
+
+	})
+	vp8Track, err := peerConnection.NewRTCTrack(webrtc.DefaultPayloadTypeH264, "video", "pion2")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	_, err = peerConnection.AddTrack(vp8Track)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	offer := webrtc.RTCSessionDescription{
+		Type: webrtc.RTCSdpTypeOffer,
+		Sdp:  string(sd),
+	}
+	if err := peerConnection.SetRemoteDescription(offer); err != nil {
+		log.Println(err)
+		return
+	}
+	answer, err := peerConnection.CreateAnswer(nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	w.Write([]byte(base64.StdEncoding.EncodeToString([]byte(answer.Sdp))))
+	u1 = uuid.Must(uuid.NewV4())
+	sampleChannels[u1] = vp8Track.Samples
+
+}
