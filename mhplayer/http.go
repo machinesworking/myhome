@@ -31,8 +31,6 @@ func main() {
 	r.HandleFunc("/play", play)
 	r.HandleFunc("/stop", stop)
 
-	//	http.Handle("/static/", http.FileServer(http.Dir("/home/scarpenter/go/src/machinesworking.com/myhome/mhrecorder/static")))
-
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("static/"))))
 	go playgob(playctrlchan)
 	go func() {
