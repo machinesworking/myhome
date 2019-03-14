@@ -10,6 +10,7 @@ import (
 	"github.com/pions/webrtc/pkg/media"
 )
 
+// This saves the gob from the time the the motion signal is sent until it times out
 func savegob(rtspchan chan media.RTCSample, savectrlchan chan string, devicename string) {
 	var path = "static/clips/" + devicename
 	var file *os.File
