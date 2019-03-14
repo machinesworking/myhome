@@ -1,0 +1,117 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<div id="remoteVideos"></div> <br />
+Browser base64 Session Description <textarea id="localSessionDescription" readonly="true"></textarea> <br />
+Golang base64 Session Description: <textarea id="remoteSessionDescription"> </textarea> <br/>
+
+<button onclick="window.startSession()"> Start Session </button>
+<div>
+<select id="devlist" onchange="getfilelist()">
+<option value="shopcam">Shop</option>
+<option value="backporchcam">Back Porch</option>
+<option value="garagecam">Garage </option>
+<option value="frontporchcam">Front Porch</option>
+
+</select>
+
+
+<select id="filelist" onchange="play()">
+
+</select>
+ </div>
+<div id="div">
+
+
+
+
+
+</div>
+
+
+
+
+
+<script>
+/* eslint-env browser */
+
+let pc = new RTCPeerConnection({
+  iceServers: [
+    {
+      urls: 'stun:stun.l.google.com:19302'
+    }
+  ]
+})
+let log = msg => {
+  document.getElementById('div').innerHTML += msg + '<br>'
+}
+
+pc.ontrack = function (event) {
+  var el = document.createElement(event.track.kind)
+  el.srcObject = event.streams[0]
+  el.autoplay = true
+  el.controls = true
+
+  document.getElementById('remoteVideos').appendChild(el)
+}
+
+pc.oniceconnectionstatechange = e => log(pc.iceConnectionState)
+pc.onicecandidate = event => {
+  if (event.candidate === null) {
+    document.getElementById('localSessionDescription').value = btoa(pc.localDescription.sdp)
+    $.post("/receive", { data:btoa(pc.localDescription.sdp)} ,function(data){
+      document.getElementById('remoteSessionDescription').value = data
+      window.startSession()
+    });
+  }
+}
+
+pc.createOffer({offerToReceiveVideo: true, offerToReceiveAudio: true}).then(d => pc.setLocalDescription(d)).catch(log)
+
+window.startSession = () => {
+  let sd = document.getElementById('remoteSessionDescription').value
+  if (sd === '') {
+    return alert('Session Description must not be empty')
+  }
+
+  try {
+    pc.setRemoteDescription(new RTCSessionDescription({type: 'answer', sdp: atob(sd)}))
+  } catch (e) {
+    alert(e)
+  }
+}
+
+
+function getfilelist(){
+cam = document.getElementById("devlist").value;
+$.post("/list", { data: cam+"/"} ,function(data){
+  var sel = document.getElementById('filelist');
+var list = JSON.parse(data);
+while (sel.firstChild) {
+    sel.removeChild(sel.firstChild);
+
+}
+
+
+  for(var i = 0; i < list.length; i++) {
+      var opt = document.createElement('option');
+      opt.innerHTML = list[i];
+      opt.value = list[i];
+      sel.appendChild(opt);
+  }
+
+
+});
+}
+
+
+function play(){
+
+cam = document.getElementById("devlist").value;
+console.log(cam+"/"+document.getElementById("filelist").value)
+  $.post("/play", { data:cam+"/"+document.getElementById("filelist").value} ,function(data){
+
+    document.getElementById('remoteSessionDescription').value = data
+});
+}
+
+getfilelist();
+</script>
